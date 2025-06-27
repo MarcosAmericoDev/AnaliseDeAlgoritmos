@@ -155,8 +155,6 @@ def remove_seam(image_array, seam):
         
     return new_image_array
 
-# --- Bloco Principal para Carregar e Processar a Imagem ---
-
 if __name__ == "__main__":
     # --- 1. ESCOLHA SUA IMAGEM AQUI ---
     image_path = "imagem.jpg" # Sua imagem da praia
@@ -173,8 +171,8 @@ if __name__ == "__main__":
     print(f"Imagem '{image_path}' carregada. Dimensões originais: {original_M}x{original_N}")
     
     # Salva a imagem original para comparação
-    img_pil_original.save("original_image_multiple_seams.png")
-    print("Imagem original salva como 'original_image_multiple_seams.png'")
+    img_pil_original.save("original_image_top_down.png")
+    print("Imagem original salva como 'original_image_top_down.png'")
 
     total_start_time = time.perf_counter()
     

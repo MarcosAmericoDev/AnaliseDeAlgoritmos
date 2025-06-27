@@ -102,15 +102,12 @@ def find_optimal_seam_bottom_up_single_pass(image_data):
     
     return min_total_cost, seam
 
-# Nova função para encapsular a criação do mapa de energia
 def create_energy_map(image_array, M, N):
     energy_map_result = np.zeros((M, N), dtype=float)
     for r in range(M):
         for c in range(N):
             energy_map_result[r, c] = calculate_pixel_energy(image_array, r, c, M, N)
     return energy_map_result
-
-# --- Bloco Principal para Carregar e Processar a Imagem (Múltiplas Costuras) ---
 
 if __name__ == "__main__":
     image_path = "imagem.jpg" # Sua imagem da praia
