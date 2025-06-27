@@ -4,4 +4,4 @@ Nesse projeto, implementamos o algoritmo de Seam Carving, que tem como objetivo 
 
 Temos duas versões, a recursiva e a iterativa. Em que a iterativa demonstrou um melhor desempenho.
 
-Contribuidos: Marcos Iury e Pedro Dylan
+Contribuidores: Marcos Iury e Pedro Dylan
