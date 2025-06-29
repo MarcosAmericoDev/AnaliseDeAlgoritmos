@@ -158,12 +158,8 @@ def remove_seam(image_array, seam):
 if __name__ == "__main__":
     # --- 1. ESCOLHA SUA IMAGEM AQUI ---
     image_path = "imagem.jpg" # Sua imagem da praia
-
-    # --- 2. DEFINA QUANTAS COLUNAS DESEJA REMOVER ---
-    # Experimente com um número pequeno primeiro, tipo 50 ou 100, para ver o efeito.
-    num_seams_to_remove = 15 # Remova 100 colunas
-
-    # Carrega a imagem original
+    num_seams_to_remove = [5, 10, 15, 20, 25]
+    tempos_execucao = []
     img_pil_original = Image.open(image_path).convert("RGB")
     current_image_data = np.array(img_pil_original)
     
@@ -174,28 +170,22 @@ if __name__ == "__main__":
     img_pil_original.save("original_image_top_down.png")
     print("Imagem original salva como 'original_image_top_down.png'")
 
-    total_start_time = time.perf_counter()
-    
-    # --- Loop para Remover Múltiplas Costuras ---
-    for i in range(num_seams_to_remove):
-        print(f"\nRemovendo costura {i + 1}/{num_seams_to_remove}...")
-        
-        # A função de encontrar costura agora recebe a imagem atualizada
-        cost, seam = find_optimal_seam_top_down_single_pass(current_image_data)
-        
-        # Atualiza a imagem para a próxima iteração
-        current_image_data = remove_seam(current_image_data, seam)
-        
-        print(f"  Custo da costura: {cost:.2f}. Nova dimensão: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
+    for i in num_seams_to_remove:
+        current_image_data = np.array(img_pil_original)
+        total_start_time = time.perf_counter()
+        print(f"\nIniciando remoção de {i} costuras (Top-down)...")
+        for j in range(i):
+            print(f"  Removendo costura {j + 1}/{i}. Dimensão atual: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
+            
+            # A função de encontrar costura iterativa
+            cost, seam = find_optimal_seam_top_down_single_pass(current_image_data)
+            
+            current_image_data = remove_seam(current_image_data, seam)
+            
+        total_end_time = time.perf_counter()
+        tempos_execucao.append(total_end_time - total_start_time)
 
-    total_end_time = time.perf_counter()
-
-    print(f"\n--- Processo de Seam Carving Concluído ---")
-    print(f"Total de {num_seams_to_remove} costuras removidas.")
-    print(f"Tempo total de execução: {total_end_time - total_start_time:.6f} segundos")
-    print(f"Dimensões finais da imagem: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
-
-    # Salvar a imagem final redimensionada
-    final_img_pil = Image.fromarray(current_image_data)
-    final_img_pil.save(f"carved_image_top_down_final_{num_seams_to_remove}_seams.png")
-    print(f"Imagem final redimensionada salva como 'carved_image_top_down_final_{num_seams_to_remove}_seams.png'")
+j = 0
+for i in tempos_execucao:
+    print(f"tempos de execução recursivo numero de cortes {num_seams_to_remove[j]}: {i:.6}")
+    j += 1

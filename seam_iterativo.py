@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 import time
+import matplotlib.pyplot as plt
 
 # As funções de cálculo de energia (calculate_pixel_energy) e remoção de costura (remove_seam)
 # são as mesmas da implementação Top-Down, pois são utilitários.
@@ -111,8 +112,8 @@ def create_energy_map(image_array, M, N):
 
 if __name__ == "__main__":
     image_path = "imagem.jpg" # Sua imagem da praia
-    num_seams_to_remove = 15 # Número de costuras a remover
-
+    num_seams_to_remove = [5, 10, 15, 20, 25]
+    tempos_execucao = []
     img_pil_original = Image.open(image_path).convert("RGB")
     current_image_data = np.array(img_pil_original)
     
@@ -122,25 +123,22 @@ if __name__ == "__main__":
     img_pil_original.save("original_image_bottom_up_test.png")
     print("Imagem original salva como 'original_image_bottom_up_test.png'")
 
-    total_start_time = time.perf_counter()
-    
-    print(f"\nIniciando remoção de {num_seams_to_remove} costuras (Bottom-Up)...")
-    
-    for i in range(num_seams_to_remove):
-        print(f"  Removendo costura {i + 1}/{num_seams_to_remove}. Dimensão atual: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
-        
-        # A função de encontrar costura iterativa
-        cost, seam = find_optimal_seam_bottom_up_single_pass(current_image_data)
-        
-        current_image_data = remove_seam(current_image_data, seam)
-        
-    total_end_time = time.perf_counter()
+    for i in num_seams_to_remove:
+        current_image_data = np.array(img_pil_original)
+        total_start_time = time.perf_counter()
+        print(f"\nIniciando remoção de {i} costuras (Bottom-Up)...")
+        for j in range(i):
+            print(f"  Removendo costura {j + 1}/{i}. Dimensão atual: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
+            
+            # A função de encontrar costura iterativa
+            cost, seam = find_optimal_seam_bottom_up_single_pass(current_image_data)
+            
+            current_image_data = remove_seam(current_image_data, seam)
+            
+        total_end_time = time.perf_counter()
+        tempos_execucao.append(total_end_time - total_start_time)
 
-    print(f"\n--- Processo de Seam Carving Concluído (Bottom-Up) ---")
-    print(f"Total de {num_seams_to_remove} costuras removidas.")
-    print(f"Tempo total de execução: {total_end_time - total_start_time:.6f} segundos")
-    print(f"Dimensões finais da imagem: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
-
-    final_img_pil = Image.fromarray(current_image_data)
-    final_img_pil.save(f"carved_image_bottom_up_final_{num_seams_to_remove}_seams.png")
-    print(f"Imagem final redimensionada salva como 'carved_image_bottom_up_final_{num_seams_to_remove}_seams.png'")
+j = 0
+for i in tempos_execucao:
+    print(f"tempos de execução iterativo numero de cortes {num_seams_to_remove[j]}: {i:.6}")
+    j += 1
