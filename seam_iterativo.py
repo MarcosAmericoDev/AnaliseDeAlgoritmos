@@ -127,8 +127,7 @@ if __name__ == "__main__":
     print(f"\nIniciando remoção de {num_seams_to_remove} costuras (Bottom-Up)...")
     
     for i in range(num_seams_to_remove):
-        if (i + 1) % 10 == 0 or i == 0 or i == num_seams_to_remove - 1:
-            print(f"  Removendo costura {i + 1}/{num_seams_to_remove}. Dimensão atual: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
+        print(f"  Removendo costura {i + 1}/{num_seams_to_remove}. Dimensão atual: {current_image_data.shape[0]}x{current_image_data.shape[1]}")
         
         # A função de encontrar costura iterativa
         cost, seam = find_optimal_seam_bottom_up_single_pass(current_image_data)
