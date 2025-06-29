@@ -3,9 +3,6 @@ from PIL import Image
 import sys
 import time
 
-# Aumentar o limite de recursão padrão para lidar com imagens grandes
-sys.setrecursionlimit(20000) 
-
 # --- Funções de Cálculo de Energia ---
 
 def calculate_pixel_energy(image_array, r, c, M, N):

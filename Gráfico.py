@@ -11,7 +11,7 @@ tempos_execucao_recursivo = [19.1805, 37.3538, 56.3538, 74.8667, 91.6232]
 plt.plot(cortes, tempos_execucao_iterativo, label='Iterativo', color='blue', linestyle='-', linewidth=2, marker='o')
 plt.plot(cortes, tempos_execucao_recursivo, label='Recursivo', color='red', linestyle='--', linewidth=2, marker='o')
 
-plt.title('Comparação do Seam Costure Recursivo e Iterativo')
+plt.title('Comparação do Seam Carving Recursivo e Iterativo')
 plt.xlabel('Número de Cortes')
 plt.ylabel('Tempos de execução')
 
